@@ -31,91 +31,92 @@ const GoogleAuth = ({action}) => {
       image: decode.picture
 
     }
+    
 
-    console.log(user);
 
+      if(action === "signup"){
 
-      // if(action === "signup"){
+        axios.post(`${url}/api/users/register`,user)
+        .then((res)=>{
 
-      //   axios.post(`${url}/api/users/register`,user)
-      //   .then((res)=>{
+          const data = res.data;
 
-      //     const data = res.data;
+          if(data.status === "success"){
 
-      //     if(data.status === "success"){
-
-      //       window.localStorage.setItem('user',data.token);
+            window.localStorage.setItem('user',data.token);
 
             
-      //       const user_data = jwtDecode(data.token);
+            const user_data = jwtDecode(data.token);
 
 
-      //       dispatch(getUser(user_data));
-      //       dispatch(verifyUser(true));
+            dispatch(getUser(user_data));
+            dispatch(verifyUser(true));
 
-      //       Swal.fire({
-      //         position: "top-start",
-      //         icon: "success",
-      //         title: "Registered successfully!",
-      //         showConfirmButton: false,
-      //         timer: 1500
-      //       });
+            Swal.fire({
+              position: "top-start",
+              icon: "success",
+              title: "Registered successfully!",
+              showConfirmButton: false,
+              timer: 1500
+            });
 
-      //       setTimeout(()=>navigate('/'),2000);
+            setTimeout(()=>navigate('/'),2000);
             
             
 
-      //     } else{
+          } else{
 
-      //       Swal.fire({
-      //         icon: "error",
-      //         title: data.message,
-      //       });
-      //     }
+            Swal.fire({
+              icon: "error",
+              title: data.message,
+            });
+          }
 
-      //   })
+        })
 
-      // }
+      }
 
-      // else if(action === "signin"){
+      else if(action === "signin"){
 
-      //   axios.post(`${url}/api/users/login`,{email: user.email})
-      //   .then((res)=>{
+        axios.post(`${url}/api/users/login`,{email: user.email})
+        .then((res)=>{
 
-      //     const data = res.data;
+          const data = res.data;
 
-      //     if(data.status === "success"){
+          console.log(data);
 
-      //       window.localStorage.setItem('user',data.token);
+          // if(data.status === "success"){
 
-      //       const user_data = jwtDecode(data.token);
+          //   window.localStorage.setItem('user',data.token);
 
-      //       dispatch(getUser(user_data));
-      //       dispatch(verifyUser(true));
+          //   const user_data = jwtDecode(data.token);
 
-      //       Swal.fire({
-      //         position: "top-start",
-      //         icon: "success",
-      //         title: "Registered successfully!",
-      //         showConfirmButton: false,
-      //         timer: 1500
-      //       });
+          //   dispatch(getUser(user_data));
+          //   dispatch(verifyUser(true));
 
-      //       setTimeout(()=>navigate('/'),2000);
+          //   Swal.fire({
+          //     position: "top-start",
+          //     icon: "success",
+          //     title: "Registered successfully!",
+          //     showConfirmButton: false,
+          //     timer: 1500
+          //   });
 
-      //     } else{
+          //   setTimeout(()=>navigate('/'),2000);
 
-      //       Swal.fire({
-      //         icon: "error",
-      //         title: data.message,
-      //       });
+          // } else{
+
+          //   Swal.fire({
+          //     icon: "error",
+          //     title: data.message,
+          //   });
 
 
-      //     }
+          // }
 
 
-      //   })
-      // }
+        })
+      }
 
     }
 
