@@ -32,109 +32,105 @@ const GoogleAuth = ({action}) => {
 
     }
 
+    console.log(user);
 
-      if(action === "signup"){
 
-        axios.post(`${url}/api/users/register`,user)
-        .then((res)=>{
+      // if(action === "signup"){
 
-          const data = res.data;
+      //   axios.post(`${url}/api/users/register`,user)
+      //   .then((res)=>{
 
-          if(data.status === "success"){
+      //     const data = res.data;
 
-            window.localStorage.setItem('user',data.token);
+      //     if(data.status === "success"){
+
+      //       window.localStorage.setItem('user',data.token);
 
             
-            const user_data = jwtDecode(data.token);
+      //       const user_data = jwtDecode(data.token);
 
 
-            dispatch(getUser(user_data));
-            dispatch(verifyUser(true));
+      //       dispatch(getUser(user_data));
+      //       dispatch(verifyUser(true));
 
-            Swal.fire({
-              position: "top-start",
-              icon: "success",
-              title: "Registered successfully!",
-              showConfirmButton: false,
-              timer: 1500
-            });
+      //       Swal.fire({
+      //         position: "top-start",
+      //         icon: "success",
+      //         title: "Registered successfully!",
+      //         showConfirmButton: false,
+      //         timer: 1500
+      //       });
 
-            setTimeout(()=>navigate('/'),2000);
+      //       setTimeout(()=>navigate('/'),2000);
             
             
 
-          } else{
+      //     } else{
 
-            Swal.fire({
-              icon: "error",
-              title: data.message,
-            });
-          }
+      //       Swal.fire({
+      //         icon: "error",
+      //         title: data.message,
+      //       });
+      //     }
 
-        })
+      //   })
 
-      }
+      // }
 
-      else if(action === "signin"){
+      // else if(action === "signin"){
 
-        axios.post(`${url}/api/users/login`,{email: user.email})
-        .then((res)=>{
+      //   axios.post(`${url}/api/users/login`,{email: user.email})
+      //   .then((res)=>{
 
-          const data = res.data;
+      //     const data = res.data;
 
-          if(data.status === "success"){
+      //     if(data.status === "success"){
 
-            window.localStorage.setItem('user',data.token);
+      //       window.localStorage.setItem('user',data.token);
 
-            const user_data = jwtDecode(data.token);
+      //       const user_data = jwtDecode(data.token);
 
-            dispatch(getUser(user_data));
-            dispatch(verifyUser(true));
+      //       dispatch(getUser(user_data));
+      //       dispatch(verifyUser(true));
 
-            Swal.fire({
-              position: "top-start",
-              icon: "success",
-              title: "Registered successfully!",
-              showConfirmButton: false,
-              timer: 1500
-            });
+      //       Swal.fire({
+      //         position: "top-start",
+      //         icon: "success",
+      //         title: "Registered successfully!",
+      //         showConfirmButton: false,
+      //         timer: 1500
+      //       });
 
-            setTimeout(()=>navigate('/'),2000);
+      //       setTimeout(()=>navigate('/'),2000);
 
-          } else{
+      //     } else{
 
-            Swal.fire({
-              icon: "error",
-              title: data.message,
-            });
-
-
-          }
+      //       Swal.fire({
+      //         icon: "error",
+      //         title: data.message,
+      //       });
 
 
-        })
-      }
+      //     }
+
+
+      //   })
+      // }
 
     }
 
 
   return (
     <div className='mx-auto google-auth'>
-      {/* <GoogleLogin
+      <GoogleLogin
 
       onSuccess={(res)=> signUser(res.credential)}
 
       onError={(err)=>console.log(err)}
       
-      /> */}
+      />
 
-<GoogleLogin
 
-onSuccess={(res)=> console.log(res)}
-
-onError={(err)=>console.log(err)}
-
-/>
     </div>
   )
 }
