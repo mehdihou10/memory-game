@@ -108,7 +108,7 @@ const GoogleAuth = ({action}) => {
               title: data.message,
             });
 
-            
+
           }
 
 
@@ -120,13 +120,21 @@ const GoogleAuth = ({action}) => {
 
   return (
     <div className='mx-auto google-auth'>
-      <GoogleLogin
+      {/* <GoogleLogin
 
       onSuccess={(res)=> signUser(res.credential)}
 
       onError={(err)=>console.log(err)}
       
-      />
+      /> */}
+
+<GoogleLogin
+
+onSuccess={(res)=> console.log(res)}
+
+onError={(err)=>console.log(err)}
+
+/>
     </div>
   )
 }
