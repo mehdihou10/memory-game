@@ -83,36 +83,34 @@ const GoogleAuth = ({action}) => {
 
           const data = res.data;
 
-          console.log(data);
+          if(data.status === "success"){
 
-          // if(data.status === "success"){
+            window.localStorage.setItem('user',data.token);
 
-          //   window.localStorage.setItem('user',data.token);
+            const user_data = jwtDecode(data.token);
 
-          //   const user_data = jwtDecode(data.token);
+            dispatch(getUser(user_data));
+            dispatch(verifyUser(true));
 
-          //   dispatch(getUser(user_data));
-          //   dispatch(verifyUser(true));
+            Swal.fire({
+              position: "top-start",
+              icon: "success",
+              title: "Registered successfully!",
+              showConfirmButton: false,
+              timer: 1500
+            });
 
-          //   Swal.fire({
-          //     position: "top-start",
-          //     icon: "success",
-          //     title: "Registered successfully!",
-          //     showConfirmButton: false,
-          //     timer: 1500
-          //   });
+            setTimeout(()=>navigate('/'),2000);
 
-          //   setTimeout(()=>navigate('/'),2000);
+          } else{
 
-          // } else{
-
-          //   Swal.fire({
-          //     icon: "error",
-          //     title: data.message,
-          //   });
+            Swal.fire({
+              icon: "error",
+              title: data.message,
+            });
 
 
-          // }
+          }
 
 
         })
