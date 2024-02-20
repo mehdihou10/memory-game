@@ -4,6 +4,7 @@ import updateSlice from "./slices/update.post";
 import isUpdatedSlice from "./slices/isUpdated";
 import userSlice from './slices/user';
 import isSigned from './slices/isSigned';
+import pageNumberSlice from './slices/page.number';
 
 
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
         post: updateSlice,
         isUpdated: isUpdatedSlice,
         user: userSlice,
-        isSigned
+        isSigned,
+        pageNum: pageNumberSlice,
     }
 })

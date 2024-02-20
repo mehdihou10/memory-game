@@ -1,8 +1,7 @@
-import {Home,Signup,Signin} from './pages';
+import {Home,Signup,Signin, PostDetails} from './pages';
 import Header from "./components/Header";
-import {Routes,Route} from 'react-router-dom';
+import {Routes,Route,Navigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
-import {fetchPosts} from './store/slices/posts';
 import { getUser } from './store/slices/user';
 import { verifyUser } from './store/slices/isSigned';
 import {useEffect} from 'react';
@@ -16,8 +15,6 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(()=>{
-
-    dispatch(fetchPosts());
 
     const userToken = window.localStorage.getItem('user');
 
@@ -43,7 +40,10 @@ function App() {
 
     <Routes>
 
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Navigate to='/posts' />} />
+      <Route path="posts" element={<Home />} />
+      <Route path="posts/:postId" element={<PostDetails />} />
+      <Route path="posts/search" element={<Home />} />
       <Route path='signin' element={<Signin />}/>
       <Route path='signup' element={<Signup />}/>
 

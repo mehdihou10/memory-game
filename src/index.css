@@ -62,3 +62,70 @@ color: white;
     border-radius: 50%;
     object-fit: cover;
 }
+
+.hide-element{
+    pointer-events: none;
+    opacity: 0.5;
+}
+.arrow{
+    background-color: #ccc;
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.arrow .chevron{
+    pointer-events: none;
+}
+
+.page{
+    display: grid;
+    place-items: center;
+    border: 2px solid;
+    border-color: #ccc;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+}
+
+.page.active{
+    background-color: rgb(128 43 177 / 34%);
+    border-color: #802bb1;
+}
+
+.post-data{
+padding: 50px;
+}
+.post-data > div{
+    flex-basis: 50%;
+}
+
+.post-data .image img{
+    width: 100%;
+}
+
+
+.recommended-posts .post-cat img{
+    width: 100%;
+}
+
+.add-comment{
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    margin-top: 40px;
+}
+.add-comment img,.comment img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+.comments{
+    max-height: 200px;
+    overflow-y: auto;
+}

@@ -11,6 +11,8 @@ import {fetchPosts} from "../store/slices/posts";
 import {updatePost} from "../store/slices/update.post";
 import {changeUpdateStatus} from "../store/slices/isUpdated";
 import Swal from 'sweetalert2';
+import {jwtDecode} from 'jwt-decode';
+import { Link } from 'react-router-dom';
 
 
 const Post = (props) => {
@@ -18,10 +20,21 @@ const Post = (props) => {
     const dispatch = useDispatch();
 
     const isUpdated = useSelector(state=>state.isUpdated);
+    const isSigned = useSelector(state=>state.isSigned);
+    const pageNumber = useSelector(state=>state.pageNum);
 
     const {post} = props;
 
-    let [likeCount,setCount] = useState(+post.likeCount);
+    let [likeCount,setList] = useState(post.likeCount);
+
+
+    const user = window.localStorage.getItem('user');
+    let username;
+
+    if(user){
+        const user_data = jwtDecode(user);
+        username = user_data.username;
+    }
 
 
     const [toggle,setToggle] = useState(false);
@@ -33,7 +46,7 @@ const Post = (props) => {
 
         if(isUpdated){
 
-            dispatch(updatePost({creator: "", title: "", message: "",  tags: "", image: ""}))
+            dispatch(updatePost({creator: "", title: "", message: "",  tags: "",category: "", image: ""}))
         }
 
         setToggle((prev)=>!prev)
@@ -51,20 +64,24 @@ const Post = (props) => {
             if(data.isConfirmed){
 
                 axios.delete(`${url}/api/posts/${post._id}`)
-                .then((res)=>dispatch(fetchPosts()))
+                .then((res)=>dispatch(fetchPosts(pageNumber)))
 
             }
         })
         
     }
 
-    const addLikeCount = ()=>{
+    const addLikeCount = (e)=>{
 
-        setCount(++likeCount);
+        e.target.classList.add('hide-element');
 
-        const obj = {likeCount: likeCount};
+        const newLikedList = Array.from(likeCount);
+        newLikedList.push(username)
+        setList(newLikedList)
 
-        axios.put(`${url}/api/posts/${post._id}`,obj);
+        axios.put(`${url}/api/posts/${post._id}`,{likeCount: newLikedList})
+
+       
     }
 
 
@@ -76,7 +93,10 @@ const Post = (props) => {
 
     <div className="card position-relative">
 
-        <div className="update" onClick={changePost} >
+        {
+            (isSigned && post.creator === username) &&
+
+            <div className="update" onClick={changePost} >
 
             {
                 toggle ? <IoMdClose />
@@ -85,10 +105,15 @@ const Post = (props) => {
 
         </div>
 
-        <div className="image position-relative">
-        <img src={post.image} className="card-img-top" alt="image" />
+        }
 
-        </div>
+        
+
+        <Link to={`/posts/${post._id}`} className="image position-relative">
+
+        <img src={post.image} className="card-img-top" alt="image" />
+        
+        </Link>
 
         <div className="creation">
             <h4>{post.creator}</h4>
@@ -113,14 +138,18 @@ const Post = (props) => {
 
             <div className="btns d-flex justify-content-between align-items-center position-absolute">
 
-                <div className="like text-info-emphasis cursor-pointer" onClick={addLikeCount}>
-                <BiSolidLike /> Like {likeCount}
+                <div className={`like text-info-emphasis ${likeCount.includes(username) || !isSigned ? 'hide-element' : 'cursor-pointer'}`} onClick={addLikeCount}>
+                <BiSolidLike /> Like {likeCount.length}
                 
                 </div>
+
+                {
+                    (isSigned && post.creator === username) &&
 
                 <div onClick={deletePost} className="delete cursor-pointer text-info-emphasis">
                     <FaTrash /> delete
                 </div>
+                }
 
             </div>
         </div>
