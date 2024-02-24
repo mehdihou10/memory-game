@@ -49,10 +49,24 @@ const Signin = () => {
 
       } else{
 
-        Swal.fire({
-          icon: "error",
-          title: data.message,
-        });
+        if(Array.isArray(data.message)){
+
+          for(let err of data.message){
+  
+            Swal.fire({
+              icon: "error",
+              title: err.msg
+            })
+          }
+
+        } else{
+
+          Swal.fire({
+            icon: "error",
+            title: data.message
+          })
+        }
+
 
       }
     })

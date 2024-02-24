@@ -28,7 +28,8 @@ const GoogleAuth = ({action}) => {
       lastName: decode.family_name,
       userName: decode.name,
       email: decode.email,
-      image: decode.picture
+      image: decode.picture,
+      isGoogleAuth: true
 
     }
     
@@ -78,7 +79,7 @@ const GoogleAuth = ({action}) => {
 
       else if(action === "signin"){
 
-        axios.post(`${url}/api/users/login`,{email: user.email})
+        axios.post(`${url}/api/users/googleAuth/login`,{email: user.email})
         .then((res)=>{
 
           const data = res.data;

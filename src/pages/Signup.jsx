@@ -46,6 +46,7 @@ const Signup = () => {
     userName: userData.userName,
     email: userData.email,
     password: userData.password,
+    isEmail: true
 
     }
 
@@ -60,6 +61,7 @@ const Signup = () => {
     .then((res)=>{
 
       const data = res.data;
+
 
       if(data.status === "success"){
 
@@ -82,11 +84,23 @@ const Signup = () => {
 
       } else{
 
-        Swal.fire({
-          icon: "error",
-          title: data.message,
-        });
+        if(Array.isArray(data.message)){
 
+          for(let err of data.message){
+  
+            Swal.fire({
+              icon: "error",
+              title: err.msg
+            })
+          }
+
+        } else{
+
+          Swal.fire({
+            icon: "error",
+            title: data.message
+          })
+        }
       }
 
 
